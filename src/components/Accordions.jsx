@@ -4,15 +4,18 @@ import { useState } from "react";
 
 const Accordions = ({ accordionData }) => {
   //component states
-  const [isOpen, setIsOpen] = useState(false);
+  const [accordionIds, setAccordionIds] = useState([])
 
 
   //handler functions 
-  const handlerAccordion = () => {
-    setIsOpen(!isOpen);
+  const handlerAccordion = (id) => {
+    setAccordionIds([id]);
   }
 
-  console.log(isOpen)
+  console.log(accordionIds);
+
+
+
 
 
   return (
@@ -21,14 +24,20 @@ const Accordions = ({ accordionData }) => {
         // accordionData && 
         accordionData?.map(({ id, title, desc }) => ( //optional chaining
           <div className="accordion" key={id}>
-            <div className="accordion-title" onClick={handlerAccordion}>
+            <div className="accordion-title" onClick={() => handlerAccordion(id)}>
               <h3>{title}</h3>
             </div>
-            {isOpen && (
-              <div className="accordion-des">
-                <p>{desc}</p>
-              </div>
-            )}
+
+            {
+              accordionIds?.map((acc_id, index) => (
+                acc_id === id && (
+                  <div className="accordion-des" key={index}>
+                    <p>{desc}</p>
+                  </div>
+                )
+              ))
+            }
+
           </div>
         ))
       }
